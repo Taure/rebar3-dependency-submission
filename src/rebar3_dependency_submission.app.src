@@ -1,0 +1,14 @@
+{application, rebar3_dependency_submission, [
+    {description, "GitHub Dependency Submission for rebar3 projects"},
+    {vsn, "git"},
+    {registered, []},
+    {applications, [
+        kernel,
+        stdlib,
+        inets,
+        ssl,
+        crypto
+    ]},
+    {env, []},
+    {modules, []}
+]}.

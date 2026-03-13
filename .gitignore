@@ -1,0 +1,6 @@
+_build/
+.rebar3/
+/rebar.lock
+*.beam
+ct_run.*
+logs/

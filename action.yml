@@ -1,0 +1,40 @@
+name: 'rebar3 Dependency Submission'
+description: 'Submit rebar3 project dependencies to the GitHub Dependency Graph'
+branding:
+  icon: 'package'
+  color: 'red'
+
+inputs:
+  lock-file:
+    description: 'Path to rebar.lock file'
+    required: false
+    default: 'rebar.lock'
+  config-file:
+    description: 'Path to rebar.config file'
+    required: false
+    default: 'rebar.config'
+  token:
+    description: 'GitHub token for API access'
+    required: false
+    default: ${{ github.token }}
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Build escript
+      shell: bash
+      run: |
+        cd ${{ github.action_path }}
+        rebar3 escriptize 2>/dev/null
+      env:
+        REBAR_PROFILE: default
+
+    - name: Submit dependencies
+      shell: bash
+      run: |
+        ${{ github.action_path }}/_build/default/bin/rebar3_dependency_submission \
+          --lock-file "${{ inputs.lock-file }}" \
+          --config-file "${{ inputs.config-file }}" \
+          --token "${{ inputs.token }}"
+      env:
+        GITHUB_TOKEN: ${{ inputs.token }}
