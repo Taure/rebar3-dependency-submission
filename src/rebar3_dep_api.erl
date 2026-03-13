@@ -39,5 +39,8 @@ ssl_opts() ->
     [
         {verify, verify_peer},
         {cacerts, CACerts},
-        {depth, 3}
+        {depth, 3},
+        {customize_hostname_check, [
+            {match_fun, public_key:pkix_verify_hostname_match_fun(https)}
+        ]}
     ].
